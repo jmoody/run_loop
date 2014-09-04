@@ -18,12 +18,10 @@ unless Resources.shared.travis_ci?
           expect(true).to be == true
         end
       else
-        ios8 = RunLoop::Version.new('8.0')
         ios7 = RunLoop::Version.new('7.0')
         physical_devices.each do |device|
-          if (xctools.xcode_version < xctools.v60 and device.version >= ios8) or
-                (xctools.xcode_version >= xctools.v60 and device.version < ios7)
-            it "skipping #{device.name} iOS #{device.version} because it is not supported on #{xctools.xcode_version}" do
+          if xctools.xcode_version >= xctools.v60 and device.version < ios7
+            it "skipping #{device.name} iOS #{device.version} because it is not supported on Xcode #{xctools.xcode_version}" do
               expect(true).to be == true
             end
           else
@@ -62,10 +60,8 @@ unless Resources.shared.travis_ci?
             it "Xcode #{version} @ #{path} #{device.name} iOS #{device.version}" do
               ENV['DEVELOPER_DIR'] = path
               inner_tools = RunLoop::XCTools.new
-              ios8 = RunLoop::Version.new('8.0')
               ios7 = RunLoop::Version.new('7.0')
-              unless (inner_tools.xcode_version < inner_tools.v60 and device.version >= ios8) or
-                    (inner_tools.xcode_version >= inner_tools.v60 and device.version < ios7)
+              unless inner_tools.xcode_version >= inner_tools.v60 and device.version < ios7
                 options =
                       {
                             :bundle_id => Resources.shared.bundle_id,
