@@ -1,21 +1,7 @@
 language: objective-c
 
-before_install:
-  - gem uninstall -Vax --force --no-abort-on-dependent run_loop
-
 script:
   - scripts/ci/travis/install-gem-ci.rb
   - scripts/ci/travis/rspec-ci.rb
 
-rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.2
-
-notifications:
-  email:
-    recipients:
-      - joshuajmoody@gmail.com
-      - karl.krukow@xamarin.com
-    on_success: change
-    on_failure: always
+after_failure: ps aux | grep launchd_sim
