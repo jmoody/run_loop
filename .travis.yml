@@ -1,6 +1,7 @@
 language: objective-c
 
 script:
+  - brew uninstall xctool
   - scripts/ci/travis/install-gem-ci.rb
   - scripts/ci/travis/rspec-ci.rb
 
